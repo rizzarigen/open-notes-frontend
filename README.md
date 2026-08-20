@@ -1,6 +1,6 @@
 # open_notes_frontend
 
-Vue3 + SCSS Open Notes Frontend on Vite (server will be published as soon as I rewrite it on Python) (or i'll publish Java server as fork from chirp-service by oxydencher-stack)
+Vue3 + SCSS Open Notes Frontend on Vite (backend server will be published as soon as I rewrite it on Python) (or i'll publish Java server as fork from chirp-service by oxydencher-stack)
 API Url: localhost:8080, proxied by Vite in dev running
 
 ## Recommended IDE Setup
