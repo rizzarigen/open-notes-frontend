@@ -61,6 +61,11 @@ onMounted(() => {
         overflow-y: scroll;
         overflow-x: auto;
 
+        
+        @include respond-to(ssm) {
+            padding: 1em 1em 200px 1em;
+        }
+
 
         -ms-overflow-style: none;
         scrollbar-width: none;
@@ -73,7 +78,7 @@ onMounted(() => {
 
     &-newbtn {
         position: absolute;
-        top: calc(100dvh - 13%);
+        bottom: 2em;
         left: calc(100dvw - 20%);
 
         background-color: $main-color;
@@ -85,15 +90,16 @@ onMounted(() => {
         cursor: pointer;
 
         @include respond-to(ssm) {
-            top: calc(100dvh - 13%);
-            left: calc(100dvw - 25%);
+
+            & svg {
+                width: 1.75em;
+                height: 1.75em
+            }
 
         }
 
         @include respond-to(sssm) {
-            top: calc(100dvh - 15%);
-            left: calc(100dvw - 30%);
-
+        left: calc(100dvw - 26%);
         }
 
         &:hover {

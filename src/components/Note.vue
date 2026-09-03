@@ -13,7 +13,11 @@
         <Transition>
             <div class="note-btns" v-if="isHovered">
                 <HoverFillButton :isFill='isPin' @click="changePinNote">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m640-480 80 80v80H520v240l-40 40-40-40v-240H240v-80l80-80v-280h-40v-80h400v80h-40v280Zm-286 80h252l-46-46v-314H400v314l-46 46Zm126 0Z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                        fill="#000000">
+                        <path
+                            d="m640-480 80 80v80H520v240l-40 40-40-40v-240H240v-80l80-80v-280h-40v-80h400v80h-40v280Zm-286 80h252l-46-46v-314H400v314l-46 46Zm126 0Z" />
+                    </svg>
                 </HoverFillButton>
                 <HoverFillButton isHoverable @click="() => {
                     noteStore.deleteNote(note.id)
@@ -61,6 +65,7 @@ const changePinNote = () => {
 
 <style scoped lang="scss">
 @use "@/assets/colors" as *;
+@use '@/assets/breakpoints' as *;
 
 .note {
     padding: 1em 2em;
@@ -94,6 +99,10 @@ const changePinNote = () => {
         -webkit-line-clamp: 4;
         overflow: hidden;
         -webkit-box-orient: vertical;
+
+        @include respond-to(ssm) {
+            font-size: 16px;
+        }
     }
 
     &-content {
@@ -104,6 +113,10 @@ const changePinNote = () => {
         -webkit-line-clamp: 7;
         -webkit-box-orient: vertical;
         overflow: hidden;
+        
+        @include respond-to(ssm) {
+            font-size: 16px;
+        }
     }
 
     &-btns {
