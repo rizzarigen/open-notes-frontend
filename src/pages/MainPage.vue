@@ -4,11 +4,9 @@ import { useNoteStore } from '@/stores/notes.js'
 import { useEditorStore } from '@/stores/editor.js'
 import { onMounted } from 'vue'
 
-import { MasonryWall } from '@yeger/vue-masonry-wall'
-
-import Note from '@/components/Note.vue'
 import Editor from '@/components/Editor.vue'
 import Header from '@/components/Header.vue'
+import NoteWall from '@/components/NoteWall.vue'
 
 const noteStore = useNoteStore()
 const editorStore = useEditorStore()
@@ -21,12 +19,9 @@ onMounted(() => {
 <template>
     <Header />
     <div class="main">
-        <div class="main-list">
-            <MasonryWall :items="noteStore.notes" :column-width="224" :gap="16">
-                <template #default="{ item }">
-                    <Note :note="item" />
-                </template>
-            </MasonryWall>
+        <div class="main-walls">
+            <NoteWall :list="noteStore.notes.filter(note => note.pinned == true)" />
+            <NoteWall :list="noteStore.notes.filter(note => note.pinned == false)" />
         </div>
 
         <button class="main-newbtn" @click="editorStore.openNew">
@@ -52,38 +47,13 @@ onMounted(() => {
     box-sizing: border-box;
     overflow: hidden;
 
-    &-newbtn {
-        position: absolute;
-        top: calc(100dvh - 13%);
-        left: calc(100dvw - 20%);
+    &-walls {
+        display: flex;
+        flex-direction: column;
+        margin: auto;
+        gap: 48px;
 
-        background-color: $main-color;
-        border: none;
-        padding: 1.5em;
-        border-radius: 3em;
 
-        transition: box-shadow ease-out 0.1s;
-        cursor: pointer;
-
-        @include respond-to(ssm) {
-            top: calc(100dvh - 13%);
-                        left: calc(100dvw - 25%);
-
-        }
-
-        @include respond-to(sssm) {
-            top: calc(100dvh - 15%);
-                        left: calc(100dvw - 30%);
-
-        }
-
-        &:hover {
-            box-shadow: 0 10px 10px -5px hsl(251, 10%, 30%);
-        }
-
-    }
-
-    &-list {
         margin: auto;
         padding: 2em 2em 200px 2em;
         box-sizing: border-box;
@@ -99,5 +69,38 @@ onMounted(() => {
             display: none;
         }
     }
+
+
+    &-newbtn {
+        position: absolute;
+        top: calc(100dvh - 13%);
+        left: calc(100dvw - 20%);
+
+        background-color: $main-color;
+        border: none;
+        padding: 1.5em;
+        border-radius: 3em;
+
+        transition: box-shadow ease-out 0.1s;
+        cursor: pointer;
+
+        @include respond-to(ssm) {
+            top: calc(100dvh - 13%);
+            left: calc(100dvw - 25%);
+
+        }
+
+        @include respond-to(sssm) {
+            top: calc(100dvh - 15%);
+            left: calc(100dvw - 30%);
+
+        }
+
+        &:hover {
+            box-shadow: 0 10px 10px -5px hsl(251, 10%, 30%);
+        }
+
+    }
+
 }
 </style>

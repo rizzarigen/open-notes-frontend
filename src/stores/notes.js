@@ -10,7 +10,7 @@ export const useNoteStore = defineStore('notes', {
     },
     actions: {
         getNotes() {
-            notesController.getNotes()
+             notesController.getNotes()
                 .then(response => {
                     this.notes = response.data.content
                     console.log(response)
