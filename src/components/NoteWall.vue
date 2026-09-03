@@ -1,5 +1,5 @@
 <template>
-            <MasonryWall :items="list" :column-width="224" :gap="16" :style="{'max-width': list.length == 1 ? '224px' : ''}">
+            <MasonryWall :items="list" :column-width="224" :gap="16" :min-columns="2" :style="{'max-width': list.length == 1 ? '224px' : ''}">
                 <template #default="{ item }">
                     <Note :note="item" />
                 </template>
