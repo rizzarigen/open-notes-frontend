@@ -46,7 +46,8 @@ export const useEditorStore = defineStore('editor', {
             if (this.isNew) {
                 noteStore.addNote({
                     title: this.note_title,
-                    content: this.note_content
+                    content: this.note_content,
+                    pinned: false
                 })
             } else if (this.isDirty) {
                 noteStore.editNote({

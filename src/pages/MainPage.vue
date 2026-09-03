@@ -4,11 +4,9 @@ import { useNoteStore } from '@/stores/notes.js'
 import { useEditorStore } from '@/stores/editor.js'
 import { onMounted } from 'vue'
 
-import { MasonryWall } from '@yeger/vue-masonry-wall'
-
-import Note from '@/components/Note.vue'
 import Editor from '@/components/Editor.vue'
 import Header from '@/components/Header.vue'
+import NoteWall from '@/components/NoteWall.vue'
 
 const noteStore = useNoteStore()
 const editorStore = useEditorStore()
@@ -21,12 +19,9 @@ onMounted(() => {
 <template>
     <Header />
     <div class="main">
-        <div class="main-list">
-            <MasonryWall :items="noteStore.notes" :column-width="224" :gap="16">
-                <template #default="{ item }">
-                    <Note :note="item" />
-                </template>
-            </MasonryWall>
+        <div class="main-walls">
+            <NoteWall :list="noteStore.notes.filter(note => note.pinned == true)" />
+            <NoteWall :list="noteStore.notes.filter(note => note.pinned == false)" />
         </div>
 
         <button class="main-newbtn" @click="editorStore.openNew">
@@ -52,9 +47,38 @@ onMounted(() => {
     box-sizing: border-box;
     overflow: hidden;
 
+    &-walls {
+        display: flex;
+        flex-direction: column;
+        margin: auto;
+        gap: 48px;
+
+
+        margin: auto;
+        padding: 2em 2em 200px 2em;
+        box-sizing: border-box;
+        height: 100%;
+        overflow-y: scroll;
+        overflow-x: auto;
+
+        
+        @include respond-to(ssm) {
+            padding: 1em 1em 200px 1em;
+        }
+
+
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+
+
     &-newbtn {
         position: absolute;
-        top: calc(100dvh - 13%);
+        bottom: 2em;
         left: calc(100dvw - 20%);
 
         background-color: $main-color;
@@ -66,15 +90,16 @@ onMounted(() => {
         cursor: pointer;
 
         @include respond-to(ssm) {
-            top: calc(100dvh - 13%);
-                        left: calc(100dvw - 25%);
+
+            & svg {
+                width: 1.75em;
+                height: 1.75em
+            }
 
         }
 
         @include respond-to(sssm) {
-            top: calc(100dvh - 15%);
-                        left: calc(100dvw - 30%);
-
+        left: calc(100dvw - 26%);
         }
 
         &:hover {
@@ -83,21 +108,5 @@ onMounted(() => {
 
     }
 
-    &-list {
-        margin: auto;
-        padding: 2em 2em 200px 2em;
-        box-sizing: border-box;
-        height: 100%;
-        overflow-y: scroll;
-        overflow-x: auto;
-
-
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-
-        &::-webkit-scrollbar {
-            display: none;
-        }
-    }
 }
 </style>
