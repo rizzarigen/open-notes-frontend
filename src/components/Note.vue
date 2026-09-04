@@ -140,6 +140,10 @@ const changePinNote = () => {
             z-index: 3;
         }
 
+        @include respond-to(md) {
+            display: none;
+        }
+
     }
 
 }

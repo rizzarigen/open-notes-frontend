@@ -12,14 +12,13 @@
                         }
                     }">
                 <textarea class="editor-content" type="text" v-model="editorStore.note_content" maxlength="20000"
-                    placeholder="..."
-                    @input="() => {
+                    placeholder="..." @input="() => {
                         if (!editorStore.isDirty) {
                             editorStore.isDirty = true
                         }
                     }" />
                 <button class="editor-exitbtn" @click="editorStore.close">
-                        <svg  xmlns="http://www.w3.org/2000/svg" height="px" viewBox="0 -960 960 960" width="24px"
+                    <svg xmlns="http://www.w3.org/2000/svg" height="px" viewBox="0 -960 960 960" width="24px"
                         fill="#FFFFFF">
                         <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
                     </svg>
@@ -65,7 +64,7 @@ onBeforeUnmount(() => {
 <style scoped lang="scss">
 @use '@/assets/colors' as *;
 @use "@/assets/breakpoints" as *;
-    
+
 
 .editor-wrapper {
     position: absolute;
@@ -97,12 +96,16 @@ onBeforeUnmount(() => {
     @include respond-to(xl) {
         width: 720px;
     }
+
     @include respond-to(lg) {
         width: 640px;
     }
+
     @include respond-to(md) {
         width: 480px;
+        padding: 1.75em 3em;
     }
+
     @include respond-to(sm) {
         width: 320px;
     }
@@ -124,6 +127,11 @@ onBeforeUnmount(() => {
     &-title {
         font-size: 32px;
         font-weight: 500;
+
+        @include respond-to(md) {
+            font-size: 24px;
+        }
+
     }
 
 
@@ -131,6 +139,11 @@ onBeforeUnmount(() => {
         font-size: 24px;
         flex: 1;
         resize: none;
+
+        @include respond-to(md) {
+            font-size: 16px;
+        }
+
     }
 
     &-exitbtn {
@@ -149,7 +162,7 @@ onBeforeUnmount(() => {
         @include respond-to(xl) {
             left: -10%;
         }
-        
+
         @include respond-to(md) {
             top: -12%;
             left: 0%;

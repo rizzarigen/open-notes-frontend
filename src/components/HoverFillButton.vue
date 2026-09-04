@@ -27,6 +27,7 @@ const fill = ref(props.isFill);
 
 <style scoped lang="scss">
 @use "@/assets/colors" as *;
+@use '@/assets/breakpoints' as *;
 
 .hf_btn {
     border: none;
@@ -46,6 +47,7 @@ const fill = ref(props.isFill);
     background-color: $main-color;
     margin-right: -0.5em;
     margin-bottom: -0.5em;
+
 
     & * {
         fill: white;
