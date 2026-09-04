@@ -1,7 +1,7 @@
 <template>
 
     <Transition>
-        <div class="editor-wrapper" v-if="editorStore.isOpen" @mousedown.self="editorStore.close">
+        <div class="editor-wrapper" @mousedown.self="editorStore.close">
 
 
             <div class='editor'>
@@ -34,12 +34,31 @@
 
 <script setup>
 import { useEditorStore } from '@/stores/editor';
-import { Transition } from 'vue';
-
-
-
+import { onBeforeUnmount, onMounted, Transition, ref } from 'vue';
 
 const editorStore = useEditorStore()
+
+const rootRef = ref(null)
+
+
+const btnCallback = (e) => {
+    if (e.key === 'Escape') {
+        editorStore.close()
+    }
+}
+
+onMounted(() => {
+    window.addEventListener('keydown', btnCallback)
+})
+
+onBeforeUnmount(() => {
+    editorStore.save()
+    editorStore.reset()
+    window.removeEventListener('keydown', btnCallback)
+})
+
+
+
 
 </script>
 

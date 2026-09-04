@@ -21,14 +21,14 @@ export const useEditorStore = defineStore('editor', {
 
     },
     actions: {
-        reset () {
+        reset() {
             this.isNew = false
             this.isDirty = false
             this.note_content = ""
             this.note_title = ""
             this.note_id = 0
         },
-        
+
         openExist(note) {
 
             this.note_title = note.title
@@ -41,8 +41,11 @@ export const useEditorStore = defineStore('editor', {
             this.isOpen = true
         },
         close() {
-            const noteStore = useNoteStore()
             this.isOpen = false
+        },
+        save() {
+            console.log("saved")
+            const noteStore = useNoteStore()
             if (this.isNew) {
                 noteStore.addNote({
                     title: this.note_title,
@@ -56,7 +59,6 @@ export const useEditorStore = defineStore('editor', {
                     id: this.note_id
                 })
             }
-            this.reset()
         }
     }
 })

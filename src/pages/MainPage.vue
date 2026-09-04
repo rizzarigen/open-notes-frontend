@@ -32,7 +32,7 @@ onMounted(() => {
             </svg>
         </button>
     </div>
-    <Editor />
+    <Editor v-if="editorStore.isOpen" />
 </template>
 
 <style scoped lang="scss">
