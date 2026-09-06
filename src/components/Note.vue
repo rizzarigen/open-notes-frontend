@@ -1,6 +1,6 @@
 <template>
     <div class="note-wrapper" @mouseenter="isHovered = true" @mouseleave="isHovered = false">
-        <div class="note" @click="() => {
+        <div class="note" :class="{'selected': selectStore.isSelected(note.id)}" @click="() => {
             editorStore.openExist(note)
         }">
             <p class="note-title">
@@ -36,6 +36,7 @@
 <script setup>
 import { useEditorStore } from '@/stores/editor';
 import { useNoteStore } from '@/stores/notes';
+import { useSelectStore } from '@/stores/select';
 import { ref } from 'vue';
 
 import HoverFillButton from './HoverFillButton.vue';
@@ -54,6 +55,7 @@ const isHovered = ref(false);
 const editorStore = useEditorStore();
 const noteStore = useNoteStore();
 const isPin = ref(props.note.pinned);
+const selectStore = useSelectStore();
 
 
 const changePinNote = () => {
@@ -145,6 +147,11 @@ const changePinNote = () => {
         }
 
     }
+
+}
+
+.selected {
+    border: 2px solid black;
 
 }
 
