@@ -51,6 +51,8 @@ const props = defineProps({
 
 const isHovered = ref(false);
 
+const isLong = ref(false)
+
 const longPressOrClickRef = shallowRef(null);
 
 const editorStore = useEditorStore();
@@ -63,20 +65,30 @@ const onMouseUpCallback = (duration, distance, isLongPress, event) => {
     const button = target.closest('.note-btns');
     if (button) return;  // such a workaround... but it works
     
-    console.log(!selectStore.isSelected(props.note.id))
-    if (!selectStore.isSelected(props.note.id) && selectStore.selected.length <= 0) {
+    if (isLong.value && selectStore.selected.length == 0) {
+        selectStore.select(props.note.id)
+    } else if (selectStore.selected.length <= 0 && !isLong.value) {
         editorStore.openExist(props.note)
+    } else if (!isLong.value && selectStore.isSelected(props.note.id)) {
+        selectStore.unselect(props.note.id)
     } else if (selectStore.selected.length > 0 && !selectStore.isSelected(props.note.id)) {
+        console.log(4)
         selectStore.select(props.note.id)
     } 
-    console.log(duration, distance, isLongPress, selectStore.selected)
+
+    /// shitcode, my bad
+    /// yandere dev if he was an frontend developer xD
+    /// CHORE: clean up moment above
+
+    isLong.value = false
+
 }
 
 const onPressedLong = () => {
-    if (!selectStore.isSelected(props.note.id)) {
-        selectStore.select(props.note.id)
-    }
-
+    /// if (!selectStore.isSelected(props.note.id)) {
+    ///    selectStore.select(props.note.id)
+    /// }
+    isLong.value = true
 
 
 
