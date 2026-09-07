@@ -12,6 +12,7 @@ export const useSelectStore = defineStore('select', {
             this.selected.push(id)
         },
         unselect(id) {
+            console.log(id)
             this.selected = this.selected.filter(inStateId => inStateId !== id)
         },
         reset() {

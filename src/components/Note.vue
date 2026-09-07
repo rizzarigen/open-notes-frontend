@@ -1,8 +1,6 @@
 <template>
-    <div class="note-wrapper" @mouseenter="isHovered = true" @mouseleave="isHovered = false">
-        <div class="note" :class="{'selected': selectStore.isSelected(note.id)}" @click="() => {
-            editorStore.openExist(note)
-        }">
+    <div class="note-wrapper" ref="longPressOrClickRef" @mouseenter="isHovered = true" @mouseleave="isHovered = false">
+        <div class="note" :class="{ 'selected': selectStore.isSelected(note.id) }">
             <p class="note-title">
                 {{ note.title }}
             </p>
@@ -11,7 +9,7 @@
             </p>
         </div>
         <Transition>
-            <div class="note-btns" v-if="isHovered">
+            <div class="note-btns" v-if="isHovered" @click.stop>
                 <HoverFillButton :isFill='isPin' @click="changePinNote">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                         fill="#000000">
@@ -37,7 +35,8 @@
 import { useEditorStore } from '@/stores/editor';
 import { useNoteStore } from '@/stores/notes';
 import { useSelectStore } from '@/stores/select';
-import { ref } from 'vue';
+import { ref, shallowRef } from 'vue';
+import { onLongPress } from '@vueuse/core'
 
 import HoverFillButton from './HoverFillButton.vue';
 
@@ -52,10 +51,37 @@ const props = defineProps({
 
 const isHovered = ref(false);
 
+const longPressOrClickRef = shallowRef(null);
+
 const editorStore = useEditorStore();
 const noteStore = useNoteStore();
 const isPin = ref(props.note.pinned);
 const selectStore = useSelectStore();
+
+const onMouseUpCallback = (duration, distance, isLongPress, event) => {
+    const target = event.target;
+    const button = target.closest('.note-btns');
+    if (button) return;  // such a workaround... but it works
+    
+    console.log(!selectStore.isSelected(props.note.id))
+    if (!selectStore.isSelected(props.note.id) && selectStore.selected.length <= 0) {
+        editorStore.openExist(props.note)
+    } else if (selectStore.selected.length > 0 && !selectStore.isSelected(props.note.id)) {
+        selectStore.select(props.note.id)
+    } 
+    console.log(duration, distance, isLongPress, selectStore.selected)
+}
+
+const onPressedLong = () => {
+    if (!selectStore.isSelected(props.note.id)) {
+        selectStore.select(props.note.id)
+    }
+
+
+
+
+
+}
 
 
 const changePinNote = () => {
@@ -63,6 +89,12 @@ const changePinNote = () => {
     isPin.value = !isPin.value
     noteStore.editNote(props.note)
 }
+
+onLongPress(longPressOrClickRef, onPressedLong, {
+    delay: 500,
+    distanceThreshold: 24,
+    onMouseUp: onMouseUpCallback
+})
 </script>
 
 <style scoped lang="scss">
@@ -70,6 +102,8 @@ const changePinNote = () => {
 @use '@/assets/breakpoints' as *;
 
 .note {
+    user-select: none;
+
     padding: 1em 2em;
     background-color: white;
     border-radius: 1.5em;
@@ -115,7 +149,7 @@ const changePinNote = () => {
         -webkit-line-clamp: 7;
         -webkit-box-orient: vertical;
         overflow: hidden;
-        
+
         @include respond-to(ssm) {
             font-size: 16px;
         }
