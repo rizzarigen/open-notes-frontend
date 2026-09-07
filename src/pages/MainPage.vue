@@ -2,22 +2,28 @@
 import '@/assets/main.scss'
 import { useNoteStore } from '@/stores/notes.js'
 import { useEditorStore } from '@/stores/editor.js'
+import { useSelectStore } from '@/stores/select'
 import { onMounted } from 'vue'
 
 import Editor from '@/components/Editor.vue'
 import Header from '@/components/Header.vue'
 import NoteWall from '@/components/NoteWall.vue'
+import ActionsHeader from '@/components/ActionsHeader.vue'
 
 const noteStore = useNoteStore()
 const editorStore = useEditorStore()
+const selectStore = useSelectStore()
 
 onMounted(() => {
     noteStore.getNotes()
+    
 })
 </script>
 
 <template>
     <Header />
+    <ActionsHeader v-if="selectStore.selected.length > 0" />
+
     <div class="main">
         <div class="main-walls">
             <NoteWall :list="noteStore.notes.filter(note => note.pinned == true)" />

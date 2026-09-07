@@ -1,6 +1,6 @@
 <template>
     <div class="note-wrapper" ref="longPressOrClickRef" @mouseenter="isHovered = true" @mouseleave="isHovered = false">
-        <div class="note" :class="{ 'selected': selectStore.isSelected(note.id) }">
+        <div class="note" :class="{ 'selected': selectStore.isSelected(note) }">
             <p class="note-title">
                 {{ note.title }}
             </p>
@@ -66,14 +66,14 @@ const onMouseUpCallback = (duration, distance, isLongPress, event) => {
     if (button) return;  // such a workaround... but it works
     
     if (isLong.value && selectStore.selected.length == 0) {
-        selectStore.select(props.note.id)
+        selectStore.select(props.note)
     } else if (selectStore.selected.length <= 0 && !isLong.value) {
         editorStore.openExist(props.note)
-    } else if (!isLong.value && selectStore.isSelected(props.note.id)) {
-        selectStore.unselect(props.note.id)
-    } else if (selectStore.selected.length > 0 && !selectStore.isSelected(props.note.id)) {
+    } else if (!isLong.value && selectStore.isSelected(props.note)) {
+        selectStore.unselect(props.note)
+    } else if (selectStore.selected.length > 0 && !selectStore.isSelected(props.note)) {
         console.log(4)
-        selectStore.select(props.note.id)
+        selectStore.select(props.note)
     } 
 
     /// shitcode, my bad
@@ -103,7 +103,7 @@ const changePinNote = () => {
 }
 
 onLongPress(longPressOrClickRef, onPressedLong, {
-    delay: 500,
+    delay: 325,
     distanceThreshold: 24,
     onMouseUp: onMouseUpCallback
 })
